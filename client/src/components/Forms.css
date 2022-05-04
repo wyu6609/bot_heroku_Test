@@ -1,0 +1,8 @@
+.login-form > input {
+  display: flex;
+}
+.login-submit {
+  display: relative;
+
+  align-content: flex-end;
+}

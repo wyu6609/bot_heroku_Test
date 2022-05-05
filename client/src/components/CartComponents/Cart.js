@@ -19,7 +19,7 @@ const theme = createTheme({
 
 //get all the reviews for this bot
 // includes user name fo reach bo
-function Cart({ bot, user, botList }) {
+function Cart({ bot, user, botList, onCheckOutClick }) {
   const [cartList, setCartList] = useState([]);
   const [allCartItems, setAllCartItems] = useState([]);
   const [cartBots, setCartBots] = useState([]);
@@ -40,8 +40,7 @@ function Cart({ bot, user, botList }) {
         );
       });
   }, []);
-  console.log(allCartItems);
-  console.log(cartList);
+
   function getProductIds(objArr) {
     let newArr = [];
     objArr.map((el) => newArr.push(el.product_id));
@@ -88,7 +87,7 @@ function Cart({ bot, user, botList }) {
     return sum;
   }
   let cartTotal = getCartTotal(newArr);
-  console.log(getCartTotal(newArr));
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles
@@ -134,6 +133,7 @@ function Cart({ bot, user, botList }) {
         <Grid container item justifyContent="center" sx={{ mt: 2 }}>
           <Button
             onClick={() => {
+              onCheckOutClick(cartTotal, newArr);
               history.push("/checkout");
             }}
             variant="contained"

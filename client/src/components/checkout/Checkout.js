@@ -15,23 +15,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 const steps = ["Shipping address", "Payment details", "Review your order"];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
 
 const theme = createTheme({
   typography: {
@@ -39,7 +28,19 @@ const theme = createTheme({
   },
 });
 
-export default function Checkout() {
+export default function Checkout({ cartTotal, userCart }) {
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm />;
+      case 1:
+        return <PaymentForm />;
+      case 2:
+        return <Review cartTotal={cartTotal} userCart={userCart} />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
   const history = useHistory();
   const checkOutSuccessSound = () => {
     let checkOutAudio = new Audio("/sounds/purchased-sound.mp3");
@@ -119,6 +120,14 @@ export default function Checkout() {
               <React.Fragment>
                 {getStepContent(activeStep)}
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <IconButton
+                    onClick={() => {
+                      history.push("/cart");
+                    }}
+                    sx={{ mt: 3, ml: 1 }}
+                  >
+                    <ShoppingCartIcon color="primary" />
+                  </IconButton>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back

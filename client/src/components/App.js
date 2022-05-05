@@ -19,8 +19,8 @@ function App() {
   const [marketBlink, setMarketBlink] = useState(true);
   const [bot, setBot] = useState(null);
   const [botList, setBotList] = useState([]);
-  const [userItems, setUserItems] = useState([]);
-
+  const [userCart, setUserCart] = useState([]);
+  const [cartTotal, setCartTotal] = useState([]);
   useEffect(() => {
     // auto-login
     fetch("/me").then((r) => {
@@ -92,6 +92,13 @@ function App() {
     });
   };
 
+  const onCheckOutClick = (cartSum, newArr) => {
+    console.log(cartTotal);
+    setCartTotal(cartSum);
+    console.log(newArr);
+    setUserCart(newArr);
+  };
+
   return (
     <div>
       <ToastContainer />
@@ -115,10 +122,15 @@ function App() {
             <BotPage bot={bot} user={user} handleAddCart={handleAddCart} />
           </Route>
           <Route path="/cart">
-            <Cart botList={botList} bot={bot} user={user} />
+            <Cart
+              botList={botList}
+              bot={bot}
+              user={user}
+              onCheckOutClick={onCheckOutClick}
+            />
           </Route>
           <Route path="/checkout">
-            <Checkout />
+            <Checkout cartTotal={cartTotal} userCart={userCart} />
           </Route>
           <Route path="/">
             <Home botList={botList} />

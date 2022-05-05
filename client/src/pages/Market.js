@@ -218,7 +218,7 @@ function Market({ bot, setBot, botList, handleAddCart }) {
                         align="right"
                         color="#47c758"
                       >
-                        ETH{bot.price}
+                        ${bot.price}
                       </Typography>
                     </CardActions>
                   </Card>

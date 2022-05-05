@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,7 +20,7 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
 const theme = createTheme({
@@ -29,14 +30,48 @@ const theme = createTheme({
 });
 
 export default function Checkout({ cartTotal, userCart }) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [addLine1, setAddLine1] = useState("");
+  const [addLine2, setAddLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [country, setCountry] = useState("");
+
+  let orderNumber = Math.floor(1000000 + Math.random() * 9000000);
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm />;
+        return (
+          <AddressForm
+            setFirstName={setFirstName}
+            setLastName={setLastName}
+            setAddLine1={setAddLine1}
+            setAddLine2={setAddLine2}
+            setCity={setCity}
+            setState={setState}
+            setZip={setZip}
+            setCountry={setCountry}
+          />
+        );
       case 1:
         return <PaymentForm />;
       case 2:
-        return <Review cartTotal={cartTotal} userCart={userCart} />;
+        return (
+          <Review
+            firstName={firstName}
+            lastName={lastName}
+            addLine1={addLine1}
+            addLine2={addLine2}
+            city={city}
+            state={state}
+            zip={zip}
+            country={country}
+            cartTotal={cartTotal}
+            userCart={userCart}
+          />
+        );
       default:
         throw new Error("Unknown step");
     }
@@ -111,9 +146,9 @@ export default function Checkout({ cartTotal, userCart }) {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  Your order number is #{orderNumber}. We have emailed your
+                  order confirmation, and will send you an update when your
+                  order has shipped.
                 </Typography>
               </React.Fragment>
             ) : (

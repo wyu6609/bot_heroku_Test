@@ -5,7 +5,16 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
-export default function AddressForm() {
+export default function AddressForm({
+  setFirstName,
+  setLastName,
+  setAddLine1,
+  setAddLine2,
+  setCity,
+  setState,
+  setZip,
+  setCountry,
+}) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -18,6 +27,9 @@ export default function AddressForm() {
             id="firstName"
             name="firstName"
             label="First name"
+            onChange={(event) => {
+              setFirstName(event.target.value);
+            }}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -29,6 +41,9 @@ export default function AddressForm() {
             id="lastName"
             name="lastName"
             label="Last name"
+            onChange={(event) => {
+              setLastName(event.target.value);
+            }}
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -40,6 +55,9 @@ export default function AddressForm() {
             id="address1"
             name="address1"
             label="Address line 1"
+            onChange={(event) => {
+              setAddLine1(event.target.value);
+            }}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -50,6 +68,9 @@ export default function AddressForm() {
             id="address2"
             name="address2"
             label="Address line 2"
+            onChange={(event) => {
+              setAddLine2(event.target.value);
+            }}
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
@@ -61,6 +82,9 @@ export default function AddressForm() {
             id="city"
             name="city"
             label="City"
+            onChange={(event) => {
+              setCity(event.target.value);
+            }}
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
@@ -71,6 +95,9 @@ export default function AddressForm() {
             id="state"
             name="state"
             label="State/Province/Region"
+            onChange={(event) => {
+              setState(event.target.value);
+            }}
             fullWidth
             variant="standard"
           />
@@ -81,6 +108,9 @@ export default function AddressForm() {
             id="zip"
             name="zip"
             label="Zip / Postal code"
+            onChange={(event) => {
+              setZip(event.target.value);
+            }}
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
@@ -92,6 +122,9 @@ export default function AddressForm() {
             id="country"
             name="country"
             label="Country"
+            onChange={(event) => {
+              setCountry(event.target.value);
+            }}
             fullWidth
             autoComplete="shipping country"
             variant="standard"

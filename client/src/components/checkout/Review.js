@@ -5,7 +5,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 
-const addresses = ["1 MUI Drive", "Reactville", "Anytown", "99999", "USA"];
 const payments = [
   { name: "Card type", detail: "Visa" },
   { name: "Card holder", detail: "Mr John Smith" },
@@ -13,7 +12,19 @@ const payments = [
   { name: "Expiry date", detail: "04/2024" },
 ];
 
-export default function Review({ cartTotal, userCart }) {
+export default function Review({
+  firstName,
+  lastName,
+  addLine1,
+  addLine2,
+  city,
+  state,
+  zip,
+  country,
+  cartTotal,
+  userCart,
+}) {
+  const addresses = [addLine1 + " " + addLine2, city, state, zip, country];
   let products = userCart;
 
   return (
@@ -44,7 +55,9 @@ export default function Review({ cartTotal, userCart }) {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>
+            {firstName} {lastName}
+          </Typography>
           <Typography gutterBottom>{addresses.join(", ")}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>

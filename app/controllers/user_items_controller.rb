@@ -24,10 +24,10 @@ class UserItemsController < ApplicationController
   #     render json: @user_item
   # end
 
-  def show
-    @user_items = @user.user_items
-    render json: @user_items
-  end
+  # def show
+  #   @user_items = @user.user_items
+  #   render json: @user_items
+  # end
 
   def index
     # @user_item = UserItem.find(params[:id])
@@ -42,8 +42,8 @@ class UserItemsController < ApplicationController
   end
 
   def destroy
-    @user_item = UserItem.find(params[:id])
-    @user_item.destroy
+    selected_item = UserItem.find(params[:id])
+    selected_item.destroy
   end
 
   private

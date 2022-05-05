@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from "react";
 import "./Home.css";
 import CssBaseline from "@mui/material/CssBaseline";
+
+import { toast } from "react-toastify";
 const Home = ({ botList }) => {
   let imgBots = botList.map((bot) => {
     return <img className="bot-image floating pulse " src={bot.image} />;

@@ -4,26 +4,24 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-
+import "./ReviewDrawer.css";
+import PreviewOutlinedIcon from "@mui/icons-material/PreviewOutlined";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DrawerList from "./DrawerList";
 import Grid from "@mui/material/Grid";
 import ReviewAccordion from "./ReviewAccordion";
+import { toast } from "react-toastify";
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? grey[100]
-      : theme.palette.background.default,
 }));
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
+  backgroundColor: theme.palette.mode === "light" ? "#fff" : "#fff",
 }));
 
 const Puller = styled(Box)(({ theme }) => ({
@@ -83,12 +81,31 @@ function ReviewDrawer(props) {
           console.log(newRev);
 
           props.setReviews([newRev, ...props.reviews]);
+          toast.success("ya review has been added!", {
+            theme: "colored",
+            position: "top-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           submitReviewSound();
         });
       } else {
         r.json().then((err) => {
           errorSound();
-          // alert(err.errors);
+          toast.error("product reviewed OR fill out the form!  ", {
+            theme: "colored",
+            position: "top-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
       }
     });
@@ -107,6 +124,15 @@ function ReviewDrawer(props) {
     }).then(() => {
       props.setReviews(props.reviews.filter((el) => el.id !== productReviewId));
       deleteReviewSound();
+      toast.success("ya review has been deleted! ", {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
       // });
     });
@@ -131,9 +157,15 @@ function ReviewDrawer(props) {
           },
         }}
       />
-      <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>See reviews</Button>
-      </Box>
+
+      <IconButton
+        onClick={toggleDrawer(true)}
+        className="blink"
+        sx={{ color: "#01bfa5" }}
+      >
+        <PreviewOutlinedIcon />
+      </IconButton>
+
       <SwipeableDrawer
         container={container}
         anchor="bottom"
@@ -157,8 +189,7 @@ function ReviewDrawer(props) {
             left: 0,
           }}
         >
-          <Puller />
-          <Typography align="left" sx={{ p: 2, color: "#3794ff" }}>
+          <Typography align="center" sx={{ p: 2, color: "#01bfa5" }}>
             {props.reviews.length} Reviews
           </Typography>
         </StyledBox>

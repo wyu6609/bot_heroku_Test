@@ -15,7 +15,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
+import { useHistory } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
 function getStepContent(step) {
@@ -38,6 +40,7 @@ const theme = createTheme({
 });
 
 export default function Checkout() {
+  const history = useHistory();
   const checkOutSuccessSound = () => {
     let checkOutAudio = new Audio("/sounds/purchased-sound.mp3");
     checkOutAudio.play();
@@ -45,6 +48,19 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   if (activeStep === steps.length) {
     checkOutSuccessSound();
+    setTimeout(() => {
+      history.push("/market");
+    }, "5000");
+    toast.success("thanks you for your purchase, rerouting back to market...", {
+      theme: "colored",
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   }
   const handleNext = () => {
     setActiveStep(activeStep + 1);

@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-  
-  resources :user_items
   resources :products, only: %i[index show]
   resources :reviews
   resources :categories, only: %i[index show]
 
-  resources :user_items, only: [:index, :show, :create, :destroy, :update]
-  post "cart", to: "user_items#cart"
-  get "show", to: "user_items#show"
-  post "charges", to: "charges#create"
+  resources :user_items, only: %i[index show create destroy]
 
+  # post 'cart', to: 'user_items#cart'
+  # get 'show', to: 'user_items#show'
+
+  # post 'charges', to: 'charges#create'
 
   post '/signup', to: 'users#create'
   get '/me', to: 'users#show'

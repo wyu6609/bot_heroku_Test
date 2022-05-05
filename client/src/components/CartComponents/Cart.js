@@ -9,7 +9,8 @@ import DataList from "./DataList";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 const theme = createTheme({
   typography: {
     fontFamily: ["Press Start 2P", "cursive"].join(","),
@@ -22,6 +23,8 @@ function Cart({ bot, user, botList }) {
   const [cartList, setCartList] = useState([]);
   const [allCartItems, setAllCartItems] = useState([]);
   const [cartBots, setCartBots] = useState([]);
+
+  const history = useHistory();
   //get request for current User's shopping cart
   useEffect(() => {
     fetch("/user_items")
@@ -44,12 +47,11 @@ function Cart({ bot, user, botList }) {
     objArr.map((el) => newArr.push(el.product_id));
     return newArr;
   }
-
+  const deleteReviewSound = () => {
+    let deleteReviewAudio = new Audio("/sounds/deleted-sound.mp3");
+    deleteReviewAudio.play();
+  };
   const handleDeleteCartItem = (bot_id) => {
-    // console.log(allCartItems);
-    // console.log(newArr);
-    // console.log(bot_id);
-    // console.log(user.id);
     const selectedCartItem = allCartItems.filter((element) => {
       return element.user_id === user.id && element.product_id === bot_id;
     });
@@ -59,15 +61,34 @@ function Cart({ bot, user, botList }) {
     fetch(`/user_items/${cartItemId}`, {
       method: "DELETE",
     }).then(() => {
-      window.location.reload();
+      deleteReviewSound();
+      toast.success("removing Bot from your cart...", {
+        position: "top-center",
+        autoClose: 600,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, "1000");
+
       // props.setReviews(props.reviews.filter((el) => el.id !== cartItemId));
     });
   };
   const newArr = botList.filter((item) => {
     return cartList.includes(item.id);
   });
-
-  function cartTotal() {}
+  function getCartTotal(arr) {
+    let Arr = [];
+    arr.map((el) => Arr.push(el.price));
+    const sum = Arr.reduce((partialSum, a) => partialSum + a, 0);
+    return sum;
+  }
+  let cartTotal = getCartTotal(newArr);
+  console.log(getCartTotal(newArr));
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles
@@ -88,7 +109,7 @@ function Cart({ bot, user, botList }) {
           color="#3794ff"
           gutterBottom
         >
-          your items
+          ya botz
         </Typography>
         <Grid align="center" sx={{ mt: 9 }}>
           <DataList
@@ -108,10 +129,17 @@ function Cart({ bot, user, botList }) {
         }}
       >
         <Grid container item justifyContent="center">
-          Total: Eth 0
+          Total: ${cartTotal}
         </Grid>
         <Grid container item justifyContent="center" sx={{ mt: 2 }}>
-          <Button variant="contained">Checkout</Button>
+          <Button
+            onClick={() => {
+              history.push("/checkout");
+            }}
+            variant="contained"
+          >
+            Checkout
+          </Button>
         </Grid>
       </Container>
       <Container

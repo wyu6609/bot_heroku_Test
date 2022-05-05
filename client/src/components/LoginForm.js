@@ -14,7 +14,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useHistory } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Copyright(props) {
   return (
     <Typography
@@ -66,10 +67,46 @@ function LoginForm({
         r.json().then((user) => {
           loginSound();
           onLogin(user);
+          toast.success(`WELCOME ${user.username}!`, {
+            theme: "colored",
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           history.push("/");
-        });
+
+          setTimeout(() => {
+            toast.warn("rerouting to market!", {
+              position: "bottom-center",
+              autoClose: 4000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }, "5000");
+
+          setTimeout(() => {
+            history.push("/market");
+          }, "10500");
+        }, []);
       } else {
         r.json().then((err) => {
+          toast.error("INCORRECT LOGIN CREDENTIALS", {
+            theme: "colored",
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           errorSound();
         });
       }
@@ -90,7 +127,32 @@ function LoginForm({
         r.json().then((user) => {
           loginSound();
           onLogin(user);
+          toast.success(`WELCOME ${user.username}!`, {
+            theme: "colored",
+            position: "top-center",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           history.push("/");
+          setTimeout(() => {
+            toast.warn("rerouting to market!", {
+              position: "bottom-center",
+              autoClose: 4000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }, "5000");
+
+          setTimeout(() => {
+            history.push("/market");
+          }, "10500");
         });
       } else {
         r.json().then((err) => {

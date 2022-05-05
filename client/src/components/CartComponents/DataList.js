@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import Divider from "@mui/material/Divider";
 
+import EmptyCart from "./EmptyCart";
 export default function InsetDividers({ botCartList, handleDeleteCartItem }) {
   return (
     <List
@@ -19,28 +20,33 @@ export default function InsetDividers({ botCartList, handleDeleteCartItem }) {
       }}
     >
       <Divider variant="inset" component="li" />
-      {botCartList.map((el) => {
-        return (
-          <>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar src={el.image}>
-                  <ImageIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={el.title} align="left" />
-              <ListItemText secondary={`$${el.price}`} align="right" />
-              <IconButton
-                onClick={() => {
-                  handleDeleteCartItem(el.id);
-                }}
-              >
-                <DeleteForeverOutlinedIcon style={{ color: "red" }} />
-              </IconButton>
-            </ListItem>
-          </>
-        );
-      })}
+      {botCartList.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        botCartList.map((el) => {
+          return (
+            <>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar src={el.image}>
+                    <ImageIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={el.title} align="left" />
+                <ListItemText secondary={`$${el.price}`} align="right" />
+                <IconButton
+                  onClick={() => {
+                    handleDeleteCartItem(el.id);
+                  }}
+                >
+                  <DeleteForeverOutlinedIcon style={{ color: "red" }} />
+                </IconButton>
+              </ListItem>
+            </>
+          );
+        })
+      )}
+
       <Divider variant="inset" component="li" />
     </List>
   );

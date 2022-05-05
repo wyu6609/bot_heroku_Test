@@ -172,7 +172,13 @@ function Market({ bot, setBot, botList, handleAddCart }) {
                         pageChangeSound();
                       }}
                     />
-                    <CardContent sx={{ flexGrow: 1 }}>
+                    <CardContent
+                      sx={{ flexGrow: 1 }}
+                      onClick={() => {
+                        clickCardHandler(bot);
+                        pageChangeSound();
+                      }}
+                    >
                       <Typography
                         align="center"
                         gutterBottom

@@ -11,6 +11,8 @@ import Footer from "./Footer";
 import Checkout from "./checkout/Checkout";
 import BotPage from "./BotPage";
 import Cart from "./CartComponents/Cart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -37,7 +39,14 @@ function App() {
   }, []);
 
   if (!user) return <Login onLogin={setUser} />;
-
+  const submitReviewSound = () => {
+    let submitReviewAudio = new Audio("/sounds/submit-review-sound.mp3");
+    submitReviewAudio.play();
+  };
+  const errorSound = () => {
+    let errorAudio = new Audio("/sounds/error-sound.mp3");
+    errorAudio.play();
+  };
   const handleAddCart = (bot_id, user_id) => {
     let newObj = {
       user_id: user.id,
@@ -55,17 +64,37 @@ function App() {
       if (r.ok) {
         r.json().then((obj) => {
           console.log(obj);
+          submitReviewSound();
+          toast.success("bot added to cart!", {
+            position: "top-center",
+            autoClose: 500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
       } else {
         r.json().then((err) => {
-          alert(err.errors);
+          errorSound();
+          toast.error("limited to one bot per user!", {
+            position: "top-center",
+            autoClose: 500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
       }
     });
   };
 
   return (
-    <>
+    <div>
+      <ToastContainer />
       <NavBar
         user={user}
         setUser={setUser}
@@ -88,7 +117,9 @@ function App() {
           <Route path="/cart">
             <Cart botList={botList} bot={bot} user={user} />
           </Route>
-
+          <Route path="/checkout">
+            <Checkout />
+          </Route>
           <Route path="/">
             <Home botList={botList} />
           </Route>
@@ -99,7 +130,7 @@ function App() {
       </main>
 
       <Footer style={{ position: "fixed", left: 0, bottom: 0, right: 0 }} />
-    </>
+    </div>
   );
 }
 

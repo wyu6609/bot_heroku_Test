@@ -1,7 +1,8 @@
 import { React, useState } from "react";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 const Login = ({ onLogin }) => {
@@ -55,6 +56,7 @@ const Login = ({ onLogin }) => {
         </div>
       </div>
       <div className="split right">
+        <ToastContainer />
         <div className="centered">
           <img
             className="login-img floating"

@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { ToastContainer, toast } from "react-toastify";
 function Copyright(props) {
   return (
     <Typography
@@ -76,11 +76,30 @@ function SignUpForm({
           signSound();
           // onLogin(user);
           setTimeout(function () {
+            toast.success(`THANK YOU FOR SIGNING UP!`, {
+              position: "top-center",
+              autoClose: 2500,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+            });
             setShowLogin(true);
           }, 500);
         });
       } else {
         r.json().then((err) => {
+          toast.error(`PLEASE DOUBLE CHECK YOUR INFO`, {
+            theme: "colored",
+            position: "top-center",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           errorSound();
         });
       }

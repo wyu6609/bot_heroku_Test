@@ -11,6 +11,8 @@ import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LocalConvenienceStoreOutlinedIcon from "@mui/icons-material/LocalConvenienceStoreOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function NavBar({ setUser, user, marketBlink, setMarketBlink }) {
   const logoutSound = () => {
@@ -33,7 +35,18 @@ function NavBar({ setUser, user, marketBlink, setMarketBlink }) {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
         logoutSound();
+
         setUser(null);
+        toast.error(`LOGGED OUT!`, {
+          theme: "colored",
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
         // window.location.reload(false);
       }
     });
@@ -104,7 +117,22 @@ function NavBar({ setUser, user, marketBlink, setMarketBlink }) {
           >
             <ShoppingCartOutlinedIcon />
           </IconButton>
-          <IconButton color="inherit" onClick={handleLogoutClick}>
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              handleLogoutClick();
+              toast.error(`LOGGED OUT!`, {
+                theme: "colored",
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+              });
+            }}
+          >
             <LogoutOutlinedIcon />
           </IconButton>
         </Toolbar>

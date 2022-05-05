@@ -19,6 +19,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ReviewDrawer from "./ReviewDrawerComponents/ReviewDrawer";
 import AverageBotRating from "./ReviewDrawerComponents/AverageBotRating";
 import "./BotPage.css";
+
 const theme = createTheme({
   typography: {
     fontFamily: ["Press Start 2P", "cursive"].join(","),

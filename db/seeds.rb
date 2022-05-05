@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 puts 'cleaning old data..'
+UserItem.destroy_all
 User.destroy_all
 Product.destroy_all
 Review.destroy_all
@@ -41,9 +42,9 @@ puts 'seeding Product...'
 
   Product.create(
     title: Faker::Name.unique.name,
-    description: Faker::Lorem.paragraph,
+    description: Faker::Hipster.sentence(word_count: 4),
     category_id: Category.ids.sample,
-    price: Faker::Commerce.price(range: 0.0..10.0),
+    price: Faker::Number.decimal(l_digits: 2),
     image: "https://avatars.dicebear.com/api/bottts/#{seed}.svg",
   )
 end
@@ -52,9 +53,11 @@ puts 'seeding Review...'
 
 1000.times do
   Review.create(
-    description: Faker::Quote.famous_last_words,
+    description: Faker::Hipster.sentence(word_count: 6),
     rating: Faker::Number.between(from: 1, to: 5),
     user_id: User.ids.sample,
     product_id: Product.ids.sample,
   )
 end
+
+puts 'finished seeding'

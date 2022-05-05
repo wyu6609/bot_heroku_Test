@@ -96,7 +96,7 @@ function NavBar({ setUser, user, marketBlink, setMarketBlink }) {
             color="inherit"
             className={marketBlink ? "" : "blink-1"}
             as={Link}
-            to="/checkout"
+            to="/cart"
             onClick={() => {
               checkOutSound();
               setMarketBlink(true);

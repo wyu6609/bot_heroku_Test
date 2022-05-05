@@ -18,6 +18,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ReviewDrawer from "./ReviewDrawerComponents/ReviewDrawer";
 import AverageBotRating from "./ReviewDrawerComponents/AverageBotRating";
+import "./BotPage.css";
 const theme = createTheme({
   typography: {
     fontFamily: ["Press Start 2P", "cursive"].join(","),
@@ -26,7 +27,7 @@ const theme = createTheme({
 
 //get all the reviews for this bot
 // includes user name fo reach bo
-function BotPage({ bot, user }) {
+function BotPage({ bot, user, handleAddCart }) {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState("");
   const [userReview, setUserReview] = useState("");
@@ -107,6 +108,7 @@ function BotPage({ bot, user }) {
                 />
                 <CardContent>
                   <CardMedia
+                    className="floating-1"
                     component="img"
                     sx={{
                       // 16:9
@@ -144,7 +146,12 @@ function BotPage({ bot, user }) {
                 <CardActions
                   sx={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <IconButton sx={{ color: "#3794ff" }}>
+                  <IconButton
+                    sx={{ color: "#3794ff" }}
+                    onClick={() => {
+                      handleAddCart(bot.id, user.id);
+                    }}
+                  >
                     <AddShoppingCartRoundedIcon size="large" />
                   </IconButton>
                   <AverageBotRating value={averageRating} />

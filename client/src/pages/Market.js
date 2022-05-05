@@ -29,7 +29,7 @@ const theme = createTheme({
   },
 });
 
-function Market({ bot, setBot }) {
+function Market({ bot, setBot, botList, handleAddCart }) {
   const history = useHistory();
   const options = [
     "All",
@@ -41,15 +41,6 @@ function Market({ bot, setBot }) {
   ];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [botList, setBotList] = useState([]);
-
-  useEffect(() => {
-    fetch("/products")
-      .then((r) => r.json())
-      .then((products) => {
-        setBotList(products);
-      });
-  }, []);
 
   const [pageNumber, setPageNumber] = useState(0);
   const botsPerPage = 12;
@@ -161,10 +152,6 @@ function Market({ bot, setBot }) {
               {displayBots.map((bot) => (
                 <Grid item key={bot} xs={12} sm={6} md={3}>
                   <Card
-                    onClick={() => {
-                      clickCardHandler(bot);
-                      pageChangeSound();
-                    }}
                     className="fancy_card"
                     sx={{
                       height: "100%",
@@ -180,6 +167,10 @@ function Market({ bot, setBot }) {
                       }}
                       image={bot.image}
                       alt="random"
+                      onClick={() => {
+                        clickCardHandler(bot);
+                        pageChangeSound();
+                      }}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
@@ -204,7 +195,13 @@ function Market({ bot, setBot }) {
                       {bot.category.name}
                     </Typography>
                     <CardActions>
-                      <IconButton size="small" sx={{ color: "#3794ff" }}>
+                      <IconButton
+                        size="small"
+                        sx={{ color: "#3794ff" }}
+                        onClick={() => {
+                          handleAddCart(bot.id);
+                        }}
+                      >
                         <AddShoppingCartRoundedIcon />
                       </IconButton>
 

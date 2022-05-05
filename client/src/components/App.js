@@ -10,17 +10,25 @@ import Error from "../pages/Error";
 import Footer from "./Footer";
 import Checkout from "./checkout/Checkout";
 import BotPage from "./BotPage";
+import Cart from "./CartComponents/Cart";
 
 function App() {
   const [user, setUser] = useState(null);
   const [marketBlink, setMarketBlink] = useState(true);
   const [bot, setBot] = useState(null);
+  const [botList, setBotList] = useState([]);
+  const [userItems, setUserItems] = useState([]);
 
   useEffect(() => {
     // auto-login
     fetch("/me").then((r) => {
       if (r.ok) {
         r.json().then((user) => {
+          fetch("/products")
+            .then((r) => r.json())
+            .then((products) => {
+              setBotList(products);
+            });
           setUser(user);
           // history.push("/");
         });
@@ -29,6 +37,32 @@ function App() {
   }, []);
 
   if (!user) return <Login onLogin={setUser} />;
+
+  const handleAddCart = (bot_id, user_id) => {
+    let newObj = {
+      user_id: user.id,
+      product_id: bot_id,
+    };
+
+    console.log(newObj);
+    fetch("/user_items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newObj),
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((obj) => {
+          console.log(obj);
+        });
+      } else {
+        r.json().then((err) => {
+          alert(err.errors);
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -41,17 +75,22 @@ function App() {
       <main>
         <Switch>
           <Route path="/market">
-            <Market bot={bot} setBot={setBot} />
+            <Market
+              botList={botList}
+              bot={bot}
+              setBot={setBot}
+              handleAddCart={handleAddCart}
+            />
           </Route>
           <Route path="/bot">
-            <BotPage bot={bot} user={user} />
+            <BotPage bot={bot} user={user} handleAddCart={handleAddCart} />
           </Route>
-          <Route path="/checkout">
-            <Checkout />
+          <Route path="/cart">
+            <Cart botList={botList} bot={bot} user={user} />
           </Route>
 
           <Route path="/">
-            <Home />
+            <Home botList={botList} />
           </Route>
           <Route path="*">
             <Error />

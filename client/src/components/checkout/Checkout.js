@@ -39,6 +39,11 @@ export default function Checkout({ cartTotal, userCart }) {
   const [zip, setZip] = useState("");
   const [country, setCountry] = useState("");
 
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expDate, setExpDate] = useState("");
+  const [cvv, setCvv] = useState("");
+
   let orderNumber = Math.floor(1000000 + Math.random() * 9000000);
   function getStepContent(step) {
     switch (step) {
@@ -56,7 +61,14 @@ export default function Checkout({ cartTotal, userCart }) {
           />
         );
       case 1:
-        return <PaymentForm />;
+        return (
+          <PaymentForm
+            setCardName={setCardName}
+            setCardNumber={setCardNumber}
+            setExpDate={setExpDate}
+            setCvv={setCvv}
+          />
+        );
       case 2:
         return (
           <Review
@@ -68,6 +80,10 @@ export default function Checkout({ cartTotal, userCart }) {
             state={state}
             zip={zip}
             country={country}
+            cardName={cardName}
+            cardNumber={cardNumber}
+            expDate={expDate}
+            cvv={cvv}
             cartTotal={cartTotal}
             userCart={userCart}
           />

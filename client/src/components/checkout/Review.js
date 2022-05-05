@@ -5,13 +5,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 
-const payments = [
-  { name: "Card type", detail: "Visa" },
-  { name: "Card holder", detail: "Mr John Smith" },
-  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
-  { name: "Expiry date", detail: "04/2024" },
-];
-
 export default function Review({
   firstName,
   lastName,
@@ -23,7 +16,17 @@ export default function Review({
   country,
   cartTotal,
   userCart,
+  cardName,
+  cardNumber,
+  expDate,
+  cvv,
 }) {
+  const payments = [
+    { name: "Card type", detail: "Visa" },
+    { name: "Card holder", detail: `Mr ${firstName} ${lastName}` },
+    { name: "Card number", detail: `xxxx-xxxx-xxxx-${cardNumber.slice(-4)}` },
+    { name: "Expiry date", detail: expDate },
+  ];
   const addresses = [addLine1 + " " + addLine2, city, state, zip, country];
   let products = userCart;
 

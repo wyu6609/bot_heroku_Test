@@ -21,6 +21,7 @@ function App() {
   const [botList, setBotList] = useState([]);
   const [userCart, setUserCart] = useState([]);
   const [cartTotal, setCartTotal] = useState([]);
+  const [cartBotIds, setCartBotIds] = useState([]);
   useEffect(() => {
     // auto-login
     fetch("/me").then((r) => {
@@ -95,7 +96,7 @@ function App() {
   const onCheckOutClick = (cartSum, newArr) => {
     console.log(cartTotal);
     setCartTotal(cartSum);
-    console.log(newArr);
+
     setUserCart(newArr);
   };
 
@@ -130,7 +131,7 @@ function App() {
             />
           </Route>
           <Route path="/checkout">
-            <Checkout cartTotal={cartTotal} userCart={userCart} />
+            <Checkout cartTotal={cartTotal} userCart={userCart} user={user} />
           </Route>
           <Route path="/">
             <Home botList={botList} />

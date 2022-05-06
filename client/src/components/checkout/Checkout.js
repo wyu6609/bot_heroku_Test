@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -29,7 +29,7 @@ const theme = createTheme({
   },
 });
 
-export default function Checkout({ cartTotal, userCart }) {
+export default function Checkout({ cartTotal, userCart, user }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [addLine1, setAddLine1] = useState("");
@@ -38,13 +38,36 @@ export default function Checkout({ cartTotal, userCart }) {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [country, setCountry] = useState("");
-
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expDate, setExpDate] = useState("");
   const [cvv, setCvv] = useState("");
-
+  const [cartBots, setCartBots] = useState([]);
   let orderNumber = Math.floor(1000000 + Math.random() * 9000000);
+
+  useEffect(() => {
+    fetch("/user_items")
+      .then((r) => r.json())
+      .then((userItems) => {
+        setCartBots(userItems);
+      });
+  }, []);
+
+  const handleClearCart = () => {
+    let userBots = cartBots.filter((cartBot) => cartBot.user_id === user.id);
+    console.log(userBots);
+    let newArr = [];
+    userBots.map((el) => newArr.push(el.id));
+    console.log(newArr);
+    newArr.map((id) => {
+      fetch(`/user_items/${id}`, {
+        method: "DELETE",
+      }).then(() => {
+        console.log(`${id} deleted`);
+      });
+    });
+  };
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -99,6 +122,7 @@ export default function Checkout({ cartTotal, userCart }) {
   };
   const [activeStep, setActiveStep] = React.useState(0);
   if (activeStep === steps.length) {
+    handleClearCart();
     checkOutSuccessSound();
     setTimeout(() => {
       history.push("/market");

@@ -22,7 +22,7 @@ const theme = createTheme({
 function Cart({ bot, user, botList, onCheckOutClick }) {
   const [cartList, setCartList] = useState([]);
   const [allCartItems, setAllCartItems] = useState([]);
-  const [cartBots, setCartBots] = useState([]);
+  const [botIds, setBotIds] = useState([]);
 
   const history = useHistory();
   //get request for current User's shopping cart
@@ -31,9 +31,10 @@ function Cart({ bot, user, botList, onCheckOutClick }) {
       .then((r) => r.json())
       .then((userItems) => {
         setAllCartItems(userItems);
-        // let filteredUserItem = userItems.filter((el) => el.user_id == user.id);
 
-        // let filteredUserItem1 = getProductIds(filteredUserItem);
+        // let filteredUserItem = userItems.filter((el) => el.user_id == user.id);
+        setBotIds(getProductIds(userItems));
+        // let filteredUser  console.log(allCartItems);Item1 = getProductIds(filteredUserItem);
         // setCartList(filteredUserItem1);
         setCartList(
           getProductIds(userItems.filter((el) => el.user_id == user.id))
@@ -77,6 +78,21 @@ function Cart({ bot, user, botList, onCheckOutClick }) {
       // props.setReviews(props.reviews.filter((el) => el.id !== cartItemId));
     });
   };
+
+  // const handleClearCart = () => {
+  //   botIds.map((botId) => {
+  //     const selectedCartItem = allCartItems.filter((element) => {
+  //       return element.user_id === user.id && element.product_id === botId;
+  //     });
+
+  //     const cartItemId = selectedCartItem[0].id;
+  //     console.log(cartItemId);
+  //     fetch(`/user_items/${cartItemId}`, {
+  //       method: "DELETE",
+  //     }).then(() => {});
+  //   });
+  // };
+
   const newArr = botList.filter((item) => {
     return cartList.includes(item.id);
   });

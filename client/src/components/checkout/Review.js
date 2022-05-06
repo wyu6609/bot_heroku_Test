@@ -4,7 +4,9 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
-
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ImageIcon from "@mui/icons-material/Image";
 export default function Review({
   firstName,
   lastName,
@@ -38,11 +40,16 @@ export default function Review({
       <List disablePadding>
         {products.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
+            <ListItemAvatar>
+              <Avatar src={product.image}>
+                <ImageIcon />
+              </Avatar>
+            </ListItemAvatar>
             <ListItemText
               primary={product.title}
-              secondary={product.description}
+              secondary={product.category.name}
             />
-            <Typography variant="body2">{product.price}</Typography>
+            <Typography variant="body2">${product.price}</Typography>
           </ListItem>
         ))}
 
